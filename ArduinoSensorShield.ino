@@ -30,6 +30,7 @@
 #include "RGBTools.h"
 #include "SensorDriver.h"
 #include "MachineState.h"
+#include "TransmissionBroker.h"
 
 RGBTools rgb(9,10,11);       // set RGB Pins
 int button = 2;              // set interrupt pin
@@ -62,7 +63,7 @@ void setup(){
 }
 
 
-//---------------------------MAIN------------------------------
+//-------------------------MAIN LOOP------------------------------
 void loop(){
  
   for (int i = 0; i < 6; i++) {
@@ -91,14 +92,4 @@ void interaction() {
         sensors.setSensorState(false);
         rgb.setColor(0,0,100);
       }
-}
-
-//---------------------send transmission------------------------
-void send_transmission(){
-  
-}
-
-//--------------------receive transmission-----------------------
-void receive_transmission(){
-  
 }

@@ -1,7 +1,6 @@
 #include "SensorDriver.h"
 
 SensorDriver::SensorDriver(){
-  state = false;
 }
 
 void SensorDriver::setSensorState(bool value){
