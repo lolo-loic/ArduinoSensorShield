@@ -65,16 +65,22 @@ void setup(){
 
 //-------------------------MAIN LOOP------------------------------
 void loop(){
- 
-  for (int i = 0; i < 6; i++) {
-   Serial.print("   A");
-   Serial.print(i);
-   Serial.print(": ");
-   Serial.print(sensors.readSensorValue(i));
-   delay(10);
+ TransmissionBroker broker(rgb, sensors, state);
+  for(int i =0; i < 9000 ; i++) {
+    
+    Serial.println(broker.BuildTransmission());
+    delay(1000);
   }
-  Serial.println(""); 
-  delay(500); 
+  
+//  for (int i = 0; i < 6; i++) {
+//   Serial.print("   A");
+//   Serial.print(i);
+//   Serial.print(": ");
+//   Serial.print(sensors.readSensorValue(i));
+//   delay(10);
+//  }
+//  Serial.println(""); 
+//  delay(500); 
   
 }
 

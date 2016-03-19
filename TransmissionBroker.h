@@ -10,14 +10,14 @@ class TransmissionBroker
 {
   public:
     TransmissionBroker();
-    TransmissionBroker(RGBTools, SensorDriver, MachineState);
+    TransmissionBroker(RGBTools &, SensorDriver &, MachineState &);
     String BuildTransmission();
 
     int transmission_number;
     
-    RGBTools RGB;
-    SensorDriver sensors;
-    MachineState state;
+    RGBTools *rgb;
+    SensorDriver *sensors;
+    MachineState *state;
   
 };
 #endif

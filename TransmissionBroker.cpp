@@ -4,17 +4,17 @@ TransmissionBroker::TransmissionBroker()
 {  
 }
 
-TransmissionBroker::TransmissionBroker(RGBTools RGB, SensorDriver sensors, MachineState state)
+TransmissionBroker::TransmissionBroker(RGBTools& RGB, SensorDriver& sensors, MachineState& state)
+                    :transmission_number(0),
+                    rgb (&RGB),
+                    state (&state),
+                    sensors (&sensors)
+                    
 {
-  this RGB = RGB;
-  this sensors = sensors;
-  this state = state;
-
-  transmission_number = 0;
+//  rgb = &RGB; 
 }
 
-
-String BuildTransmission()
+String TransmissionBroker::BuildTransmission()
 {
   String JSON_string = ""; // RESET
  
@@ -25,11 +25,11 @@ String BuildTransmission()
   //STATE
   JSON_string += ",\"state\":";
   JSON_string += "[{\"machine\":";
-  JSON_string += String(state.getMachineState());
+  JSON_string += String(state->getMachineState());
 
   // Removed LED state indications @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   
-  if(state.getMachineState() == 0)
+  if(state->getMachineState() == 1)
   {
     //SENSORS
     JSON_string += ",\"sensors\":[";
@@ -38,7 +38,7 @@ String BuildTransmission()
       JSON_string += "{\"sensor\":\"";
       JSON_string += i;
       JSON_string += "\",\"value\":";
-      JSON_string += sensors.readSensorValue(i);
+      JSON_string += sensors->readSensorValue(i);
       
       // removed sensor state (since now we only have one state for all sensors @@@@@@@@@@@@@@@@@@@@@@@@@@@
       
@@ -54,5 +54,6 @@ String BuildTransmission()
   //ENDING
   JSON_string += "}";
   
+  return JSON_string;
 }
 
