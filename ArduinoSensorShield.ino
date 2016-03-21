@@ -32,18 +32,20 @@
 #include "MachineState.h"
 #include "TransmissionBroker.h"
 
-RGBTools rgb(9,10,11);       // set RGB Pins
 int button = 2;              // set interrupt pin
 
-MachineState state;          // defined here to share between main() and interact()
-SensorDriver sensors;
+RGBTools rgb(9,10,11);       // set RGB Pins
+SensorDriver sensors;        
+MachineState state (rgb, sensors);   
+TransmissionBroker broker(sensors, state);
 
 //---------------------------SETUP------------------------------
 void setup(){
+  rgb.setColor(200,0,0);     // hardware indication 
   Serial.begin(9600);
-  Serial.print("SETUP... ");
+  Serial.print("Setup... ");
   
-  pinMode(A0, INPUT);       // sensors inputs
+  pinMode(A0, INPUT);        // sensors inputs
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
   pinMode(A3, INPUT);
@@ -53,49 +55,20 @@ void setup(){
   pinMode(button, OUTPUT);
   digitalWrite(button, HIGH); 
   attachInterrupt(0, interaction, FALLING); // 0 = pin2 -> interrupt
-
-  delay(1000);
   
-  rgb.setColor(200,0,0); // hardware indication 
   delay(1000);
   Serial.println("Finished setup");
   rgb.setColor(50,50,50); 
 }
 
-
 //-------------------------MAIN LOOP------------------------------
 void loop(){
- TransmissionBroker broker(rgb, sensors, state);
-  for(int i =0; i < 9000 ; i++) {
-    
-    Serial.println(broker.BuildTransmission());
-    delay(1000);
-  }
-  
-//  for (int i = 0; i < 6; i++) {
-//   Serial.print("   A");
-//   Serial.print(i);
-//   Serial.print(": ");
-//   Serial.print(sensors.readSensorValue(i));
-//   delay(10);
-//  }
-//  Serial.println(""); 
-//  delay(500); 
-  
+  broker.ReadTransmission();
+  Serial.println(broker.BuildTransmission());
+  delay(100);
 }
 
 // -----------------------Interrupt-----------------------------
 void interaction() {
-    Serial.print("State change, new MachineState: ");
-    state.next();
-    Serial.println(state.getMachineState());
-
-    if(state.getMachineState()) {
-        rgb.setColor(0,100,0);
-        sensors.setSensorState(true);
-      }
-      else {
-        sensors.setSensorState(false);
-        rgb.setColor(0,0,100);
-      }
+  state.next();
 }

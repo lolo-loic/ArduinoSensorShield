@@ -8,6 +8,7 @@
 // modified a bit by Loic 
 
 #include "RGBTools.h"
+
 // constructor; saves the pins
 RGBTools::RGBTools(int r, int g, int b){
 	this->r_pin = r;

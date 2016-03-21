@@ -14,7 +14,7 @@ class SensorDriver
     int readSensorValue(int);
     
     int sensors[];                     // array of sensor pins
-    boolean state;                      // on/off states of sensors
+    boolean state;                     // on/off states of sensors
   
 };
 #endif
